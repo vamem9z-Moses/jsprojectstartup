@@ -1,0 +1,59 @@
+#!/bin/bash
+
+###
+#
+# This script will bootstrap a node.js project. It assumes that you are runing on debian / ubuntu.
+#
+# Arguments:<nodeenv environment directory> <node version>
+###
+
+EXPECTED_ARGS=2
+
+NODE_ENV=$1
+
+NODE_VERSION=$2
+
+
+
+CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+if [ "$#" -ne "$EXPECTED_ARGS" ]; then 
+  echo "Usage: ./bootstrap.bsh <nodeenv environment directory> <node version>"
+  exit 1
+fi
+
+# Install Dependencies
+
+echo "Installing node and nodeenv dependencies"
+
+sudo aptitude install libssl-dev python-pip
+
+echo "Installing nodeenv system wide"
+
+sudo pip install nodeenv
+
+# Create Node Environments Location
+
+echo "Creating Node Environmnet Location"
+
+if [ -d $HOME/.nodeenvs ]; then
+  echo "$HOME/.nodeenvs exists"
+else
+  mkdir $HOME/.nodeenvs
+fi
+
+# Create node environment
+
+echo "Creating and installing node"
+
+cd $HOME/.nodeenvs
+
+if [ -d $HOME/.nodeenvs/$1 ]; then
+  echo "$HOME/.nodeenvs/$1 exists"
+else
+  nodeenv --node=$NODE_VERSION $NODE_ENV
+fi
+
+cd $CURRENT_DIR
+
+printf "Finished. To activate node environment run . $HOME/.nodeenvs/$1/bin/activate\n" 

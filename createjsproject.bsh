@@ -1,0 +1,71 @@
+#!/bin/bash
+
+####
+#
+# createjsproject.bsh
+# 
+# Creates javascript project with folder structure
+#
+# Arguments: <projectname> <project location> <node version>
+#
+# Example:
+#	createjsproject.bsh projectname /home/projects 0.6.15
+#
+#	Will create a project with the location of /home/projects/projectname
+# 
+####
+
+EXPECTED_ARGS=3
+
+if [ "$#" -ne "$EXPECTED_ARGS" ]; then 
+  echo "Usage: ./createproject.bsh <projectname> <project location> <node version>"
+  exit 1
+fi
+
+PROJECT_NAME=$1
+
+PROJECT_LOCATION=$2
+
+NODE_VERSION=$3
+
+PROJECT_DIR="$PROJECT_LOCATION/$PROJECT_NAME" 
+
+CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Create Project Directory structure
+
+echo "Creating Project Directory Structure"
+
+mkdir "$PROJECT_DIR"
+
+mkdir "$PROJECT_DIR/doc"
+mkdir "$PROJECT_DIR/reqs"
+mkdir "$PROJECT_DIR/config"
+mkdir "$PROJECT_DIR/src"
+mkdir "$PROJECT_DIR/lib"
+mkdir "PROJECT_DIR/test"
+
+# Bootstrap Node Environment
+
+echo "Bootstrapping node environment"
+
+./bootstrap "$NODE_VERSION $PROJECT_NAME"
+
+# Create activate file
+
+echo "Creating Activate file"
+
+cp files/activate.bsh "$PROJECT_DIR"
+chmod +x "$PROJECT_DIR/activate.bsh"
+echo ". $HOME/$PROJECT_NAME/bin/activate" >> "PROJECT_DIR/activate.bsh"
+
+# Create Git Repository
+echo "Creating git repository"
+cd $PROJECT_DIR 
+git init
+
+
+
+
+
+

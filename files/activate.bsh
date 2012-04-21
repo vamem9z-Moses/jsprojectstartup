@@ -1,0 +1,12 @@
+!#/bin/bash
+
+################################
+#
+# activate.bsh
+#
+# This will activate a nodeenv environment at a given location
+#
+# ./activate.bsh
+#
+##############################
+
