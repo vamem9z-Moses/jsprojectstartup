@@ -43,8 +43,8 @@ mkdir "$PROJECT_DIR/reqs"
 mkdir "$PROJECT_DIR/config"
 mkdir "$PROJECT_DIR/src"
 mkdir "$PROJECT_DIR/lib"
-mkdir "PROJECT_DIR/test"
-mkdir "PROJECT_DIR/scripts"
+mkdir "$PROJECT_DIR/test"
+mkdir "$PROJECT_DIR/scripts"
 
 # Create Git Repository
 echo "Creating git repository"
@@ -61,17 +61,21 @@ cp "$CURRENT_DIR/files/.gitignore" "$PROJECT_DIR"
 
 echo "Bootstrapping node environment"
 
-./bootstrap "$PROJECT_DIR/env $NODE_VERSION"
+
+cd $CURRENT_DIR
+
+./bootstrap.bsh "$PROJECT_NAME" "$NODE_VERSION"
 
 
 # Create activate file
 
 echo "Creating Activate file"
 
+
 chmod +x "$PROJECT_DIR/scripts/activate.bsh"
-echo "./$PROJECT_DIR/env/bin/activate" >> "PROJECT_DIR/activate.bsh"
+echo "source $HOME/.nodeenvs/$PROJECT_NAME/bin/activate" >> "$PROJECT_DIR/scripts/activate.bsh"
 
-
+echo "To activate node environment run source $PROJECT_DIR/scripts/activate.bsh"
 
 
 
